@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"
+	"http://www.w3.org/TR/REC-html40/strict.dtd">
+<html>
+<head>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+<script type="text/javascript">
+function update(form) {
+	var ingredients = (form == null) ? "" : form.ingredients.value;
+	jQuery.getJSON('test.php',
+				   {'ingredients' : ingredients}, function(recipes) {
+		console.log(recipes.length);
+	    var html = ['<ul>'];
+	    for (var i = 0; i < recipes.length; ++i) {
+          var recipe = recipes[i];
+          html.push('<li><img src="', recipe.thumbnail, '"</li>'); 
+        }
+        html.push('</ul>');
+        document.getElementById('results').innerHTML = html.join('');
+	});
+
+}
+
+</script>
+
+<title>test</title>
+</head>
+
+<body>
+	<form>
+		<input type="text" name="ingredients" title="CSV Ingredients"/>
+		<input type="button" name="fetch" value="Fetch!" onclick="update(this.form);"/>
+	</form>
+	<div id="results"></div>
+</body>
+</html>
