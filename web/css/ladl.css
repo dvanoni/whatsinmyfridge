@@ -1,0 +1,17 @@
+fieldset {
+        overflow: hidden;
+        position: relative;
+        }
+input[type=checkbox] {
+        position: absolute;
+        left: -999em;
+        }
+input[type=checkbox] + label {
+        display: block;
+        height: 50px;
+        padding-left: 25px;
+        background: url(../img/noCheck.png) top left no-repeat;
+        }
+input[type=checkbox]:checked + label {
+        background-image: url(../img/check.png);
+        }

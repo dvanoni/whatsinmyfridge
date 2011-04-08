@@ -9,6 +9,7 @@
 		<style type="text/css" media="screen">@import "themes/apple/theme.css";</style>
 		<style type="text/css" media="screen">@import "extensions/jqt.bars/jqt.bars.css";</style>
 		<style type="text/css" media="screen">@import "extensions/jqt.bars/themes/apple/theme.css";</style>
+		<link rel="Stylesheet" type="text/css" href="css/ladl.css" />
 		<style type="text/css" media="screen">
 			#fridge > IMG {
 				margin-bottom:-5px;
@@ -353,9 +354,12 @@
 						<ul id="ingredient_list" class="rounded">
 						</ul>
 						<script type="text/javascript">
-							jQuery.getJSON('dummy_database.php', function(ingredients) {
+							$.getJSON('dummy_database.php', function(ingredients) {
 								for (i in ingredients) {
-									$('ul#ingredient_list').append('<li><input type="checkbox" name="ingredient" value="' + ingredients[i] + '" title="' + ingredients[i] + '" /></li>');
+									var ing = ingredients[i];
+									$('ul#ingredient_list').append(
+										'<li><input type="checkbox" name="ingredient" value="' + ing + '" id="foo' + i + '"/>'
+										+ '<label for="foo' + i + '">' + ing + '</label></li>');
 								}
 							});
 						</script>
