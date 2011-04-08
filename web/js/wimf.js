@@ -22,7 +22,7 @@ function addItem( spot, data ) {
 	var food_item = '';
 	if( !data.unknown ) {
 		food_item = "<a class='food-details' style='display:none;' onclick='food_details(" + data.sensor + ");' href='#details'>" +
-						"<div class='food' style='background:url(\"img/food/" + data.icon + ".png\");'></div>" +
+						"<div class='food' style='background:url(\"img/food/" + data.icon + ".png\");'><div class=\"lowfood\"> <img src=\"img/exclamation_point.png\"/></div></div>" +
 					"</a>";
 	} else {
 		food_item = "<div class='food food-details' style='display:none;background:url(\"img/unknown-white.png\");'>" +

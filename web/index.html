@@ -33,6 +33,10 @@
 				background-repeat: no-repeat;
 			}
 			
+			.lowfood {
+				display: none;
+			}
+
 			A.food-details {
 				float:left;
 			}
@@ -55,6 +59,7 @@
 		<script src="js/wimf.js" type="application/x-javascript" charset="utf-8"></script> 
 		
 		<script type="text/javascript">
+
 			// Send parameters as GET to php
 			function searchRecipes(elem) {
 				var query = $(elem).val();
@@ -107,10 +112,44 @@
 				],
 				useFastTouch: true
 			});
-			
-			
+
+			$(document).ready(function() {
+				window.setInterval(function() {
+					$.getJSON('api/check_fridge.php', null, function(data) {
+						// nothing has changed
+						if (document.food_data === data) {
+							return;
+						}
+
+						var mapping = ['1sp1', '1sp2', '2sp1', '2sp2'];
+						var spaces = {};
+						for (var i = 0; i < mapping.length; ++i) {
+							spaces[mapping[i]] = 0;
+						}
+						
+						// nothing now where there was something before
+						for (var i = 0; i < data.length; i++) {
+							spaces[mapping[ data[i].sensor ]] = 1;
+						}
+					
+						// ahhhhhh neeed moree foood!
+						for (var i = 0; i < spaces.length; ++i) {
+							var was_present = $('#' + mapping[data[i].sensor]).html().length != 0;
+							if (was_present && (spaces[i] == 0)) {
+								alert('no more food in ' + spaces[i]);
+								$('.lowfood', $('#' + spaces[i]).attr('display', 'block'));
+							}
+						}	
+
+						document.food_data = data;
+					});
+
+				}, 10000);
+			});
+
 			// Some sample Javascript functions:
 			$(function(){
+
 				// Orientation callback event
 				$('body').bind('turn', function(e, data){
 					$('#orient').html('Orientation: ' + data.orientation);
