@@ -161,11 +161,19 @@
 						var was_present = $('#' + mapping[i] ).html().length != 0;
 						// ahhhhhh neeed moree foood!
 						if( was_present && !spaces[ mapping[i] ] ) {
+							
 							$('.lowfood', $('#' + mapping[i] )).show();
 							
 							// Add old data in
 							for( var j = 0; j < document.food_data.length; j++ ) {
 								if( document.food_data[j].sensor == i ) {
+									
+									// Just remove
+									if( document.food_data[j].unknown ) {
+										$('#' + mapping[ document.food_data[j].sensor]).html('');
+										break;
+									}
+									
 									data.push( document.food_data[j] );
 									break;
 								}
@@ -185,16 +193,8 @@
 					document.food_data = data;
 				});				
 			}
-
-			// Some sample Javascript functions:
-			$(function(){
-				window.setInterval( updateFridge, 5000 );
-				
-				// Orientation callback event
-				$('body').bind('turn', function(e, data){
-					$('#orient').html('Orientation: ' + data.orientation);
-				});
-				
+			
+			function refreshFridge() {
 				// Get datars
 				$.getJSON( 'api/check_fridge.php', null, function(data) {
 						// Save food data for later reference
@@ -216,6 +216,18 @@
 						// Hide fancy progress indicator
 						$('.loader').hide();
 					});
+			}
+
+			// Some sample Javascript functions:
+			$(function(){
+				window.setInterval( updateFridge, 5000 );
+				
+				// Orientation callback event
+				$('body').bind('turn', function(e, data){
+					$('#orient').html('Orientation: ' + data.orientation);
+				});
+				
+				refreshFridge();
 
 				if (typeof window.DeviceMotionEvent != 'undefined') {
 					// Shake sensitivity (a lower number is more)
@@ -448,7 +460,7 @@
 		<div id="tabbar"> 
 			<div><ul> 
 				<li> 
-					<a href="#home" mask="img/tabs/refrigerator-tab.png" mask2x="img/tabs/refrigerator-tab.png"> 
+					<a href="#home" onclick="refreshFridge();" mask="img/tabs/refrigerator-tab.png" mask2x="img/tabs/refrigerator-tab.png"> 
 						<strong>My Fridge</strong> 
 					</a> 
 				</li> 
