@@ -134,14 +134,14 @@
 						spaces[mapping[i]] = false;
 					}
 					
-					// nothing now where there was something before
 					for (var i = 0; i < data.length; i++) {
 						spaces[ mapping[ data[i].sensor ]] = true;
 					}
 				
-					// ahhhhhh neeed moree foood!
+					// nothing now where there was something before
 					for( var i = 0; i < mapping.length; i++ ) {
 						var was_present = $('#' + mapping[i] ).html().length != 0;
+						// ahhhhhh neeed moree foood!
 						if( was_present && !spaces[ mapping[i] ] ) {
 							$('.lowfood', $('#' + mapping[i] )).show();
 							
@@ -153,6 +153,15 @@
 								}
 							}
 						}	
+					}
+
+					// There was nothing there... now there is!
+					for (var i = 0; i < data.length; ++i) {
+						var spot = mapping[data[i].sensor];
+						var not_present = $('#' + spot).html().length === 0;
+						if (not_present && spaces[spot]) {
+							addItem(spot, data[i]);
+						}
 					}
 					
 					document.food_data = data;
