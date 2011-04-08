@@ -20,16 +20,16 @@ char remote_url[] = "igert4.ucsd.edu";
 int remote_port = 8788;
 
 // FSR Code
-#define NUM_SENSORS 1
+#define NUM_SENSORS 4
 #define SENSOR_CHECK_DELAY 500
-#define CHANGE_THRESHOLD 10
+#define CHANGE_THRESHOLD 20
 int previous[NUM_SENSORS];
 int current[NUM_SENSORS];
 
 void setup() {
     // Print out a nice welcome message
     Serial.begin( 9600 );
-    Serial.println( "\n\rWhat's In My Fridge, An Andrew, David, Leilani and Lynn production" );
+    Serial.println( "\n\rWhat's In My Fridge, A LADL Production" );
     
     previous[0] = 0;
     previous[1] = 0;
@@ -62,9 +62,10 @@ void loop() {
             DEBUG_LOG( data_str );
             
             // Attempt to send data to server
-            previous[ i ] = current[i];
             sprintf( data_str, "%d,%d,%d", i, previous[i], current[i] );
             send_data( data_str );
+            
+            previous[ i ] = current[i];
         }
     }
     
@@ -89,7 +90,7 @@ void connect_to_server() {
     delay(500);
     
     WiFly.printf( "open %s %d", remote_url, remote_port );
-    Serial.print( "Opening connecting to " );
+    Serial.print( "Opening connection to " );
     Serial.println( remote_url );
     delay(500);
     WiFly.flush();    
@@ -115,7 +116,7 @@ void send_data( char* msg ) {
 
 // Helper methods
 void SERVER_OUT( char* data ) {
-    WiFly.printf( "%s\n", data );
+    WiFly.printf( "%s", data );
 }
 
 // Write <data> to THR of SC16IS750 followed by a delay
