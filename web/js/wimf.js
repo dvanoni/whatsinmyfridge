@@ -1,5 +1,16 @@
 function food_details( sensor ) {
-	var details = document.food_data[sensor];
+	var details = null;
+	for( var i = 0; i < document.food_data.length; i++ ) {
+		if( document.food_data[i].sensor == sensor ) {
+			details = document.food_data[i];
+			break;
+		}
+	}
+	
+	if( details == null ) {
+		return;
+	}
+	
 	$('#food-name').html( details.name );
 	$('#food-weight').html( details.weight + 'g' );
 	$('#food-age').html( details.age );
