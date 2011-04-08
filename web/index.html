@@ -59,18 +59,23 @@
 			function searchRecipes(elem) {
 				var query = $(elem).val();
 				$.get('recipe_search_list.php', {'query' : query}, function(data) {
-					$('div#search_results').html(data);
+					$('div#search_results').html( data );
 				});
 			}
 
 			function set_search_params(elem, is_query) {
-				var url = ['recipe_search.php'];
+				var url = 'api/recipe_search.php';
+				
+				
+				
 				if (is_query) {
-					url.push('?query=');
-					url.push(encodeURIComponent($('input#query').val()));
+					
+					$.get( url, {query: $('input#query').val()}, function(data) {
+						alert( data );
+						$('#recipe-results').html( data );
+					});
+					
 				} else {
-					//url.push($(elem).attr('href'));
-					url.push('?ingredients=');
 					var ingredients = [];
 					// TODO: more specific check in case there are more checkboxes elsewhere
 					$("input:checked").each(function() {
@@ -79,10 +84,11 @@
 					});
 					ingredients = ingredients.join(',');
 					
-					url.push(ingredients);
+					$.get( url, {ingredients: ingredients }, function( data ) {
+						alert( data );
+						$('#recipe-results').html( data );
+					});
 				}
-
-				$(elem).attr('href', url.join(''));
 			}
 
 			var jQT = new $.jQTouch({
@@ -481,7 +487,7 @@
 								}
 							});
 						</script>
-						<a style="margin:0 10px;color:rgba(0,0,0,.9)" href="recipe_search.php" onclick="set_search_params(this, false)" class="whiteButton">Find Recipes!</a>
+						<a style="margin:0 10px;color:rgba(0,0,0,.9)" href="recipe_search.php" onclick="set_search_params(this, false);" class="whiteButton">Find Recipes!</a>
 					</div>
 				</div>
 			</div>
