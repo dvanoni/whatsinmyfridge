@@ -1,7 +1,7 @@
 <?php
-	$sensor = $_GET['id'];
-	$item   = $_GET['item'];
-	$name	= $_GET['name'];
+	$sensor = $_POST['id'];
+	$item   = $_POST['item'];
+	$name	= $_POST['name'];
 
 	$HOST = 'mysql.dvanoni.com';
 	$USER = 'whatsinmyfridge';
