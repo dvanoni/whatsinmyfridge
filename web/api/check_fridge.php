@@ -16,7 +16,6 @@
 	$items = array();
 	while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
 		$item = $line;
-		
 		if( is_null( $line['name'] ) || strlen( $line['name'] ) == 0 ) {
 			$item['unknown'] = true;
 		} else {
