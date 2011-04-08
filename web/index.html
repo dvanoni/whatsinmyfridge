@@ -305,9 +305,29 @@
 				</div>
 				<div class='s-scrollwrapper'>
 					<div>
-						<ul class="rounded">
-							<li class="forward"><a href="#my_ingredients">Use My Ingredients</a></li>
-							<li class="forward"><a href="#recipe_search">Generic Search</a></li>
+						<ul class="plastic">
+							<li class="arrow">
+							<a href="#my_ingredients">
+								<table>
+									<tr><td>
+										<img height="64px" src='img/genius.png'/>
+									</td><td style='padding-left:16px;'>	
+										Use My Ingredients
+									</td></tr>
+								</table>
+								</a>
+							</li>
+							<li class="arrow">
+							<a href="#recipe_search">
+								<table>
+									<tr><td>
+										<img width="64px" src='img/recipe.png'/>
+									</td><td style='padding-left:16px;'>	
+										Browse for Recipes
+									</td></tr>
+								</table>
+								</a>
+							</li>
 						</ul>
 					</div>
 				</div>
@@ -460,10 +480,10 @@
 					<div>			
 						<div style='padding:8px;background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#CCC), color-stop(0.6, #CCC), to(#AAA));'>
 							<ul style='margin:0;'>
-								<li><input type="text" id="query" placeHolder="Search for a recipe" onkeyup="searchRecipes(this)"></li>
+								<li><input type="text" id="query" placeHolder="Browse for recipes" onkeyup="searchRecipes(this)"></li>
 							</ul>
 						</div>
-						<div id="search_results"></div>
+						<div id="search_results" style="height:1500px;"></div>
 					</div>
 				</div>
 			</div>

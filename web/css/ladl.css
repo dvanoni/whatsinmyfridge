@@ -32,15 +32,30 @@ label.checkbox_label {
 		margin: 0em 0em 0em 0em;
 			padding: 0em 0em 0em 1em;
 }
-.title h1 {
-		font-size: 22px;
-		background-color: #FFFFFF;
-		font-family: Calibri, Verdana, Sans-Serif;
-			font-variant: small-caps;
-				margin: 0px 0px 0px 0px;
-					padding: 0em;
-
+.title > h1{
+	font-size: 18px;
+	background-color: #FFFFFF;
+	font-family: Calibri, Verdana, Sans-Serif;
+		font-variant: small-caps;
+			margin: 0px 0px 0px 0px;
+				padding: 0em;
+    width: 140px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
+
+.ingredientsList {
+	font-size: 12px;
+	background-color: #FFFFFF;
+	font-family: Calibri, Verdana, Sans-Serif;
+			margin: 0px 0px 0px 0px;
+				padding: 0em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .titleBox {
 	 margin: 0em auto;
 	 padding: 0.2em;
@@ -54,4 +69,20 @@ img.portrait {
 						background-color: #FFFFFF;
 							margin: 0px 8px 0px 1px;
 								padding: 10px;
+}
+a.recipeView:link {
+	text-decoration: none;
+	color: #000
+}
+a.recipeView:hover {
+	text-decoration: none;
+	color: #000
+}
+a.recipeView:active {
+	text-decoration: none;
+	color: #000
+}
+a.recipeView:visited {
+	text-decoration: none;
+	color: #000
 }
