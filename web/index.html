@@ -115,13 +115,7 @@
 				useFastTouch: true
 			});
 			
-			// Some sample Javascript functions:
-			$(function(){
-				// Orientation callback event
-				$('body').bind('turn', function(e, data){
-					$('#orient').html('Orientation: ' + data.orientation);
-				});
-				
+			function enableShake() {
 				if (typeof window.DeviceMotionEvent != 'undefined') {
 					// Shake sensitivity (a lower number is more)
 					var sensitivity = 20;
@@ -139,18 +133,32 @@
 					// Periodically check the position and fire
 					// if the change is greater than the sensitivity
 					setInterval(function () {
+						
 						var change = Math.abs(x1-x2+y1-y2+z1-z2);
 
 						if (change > sensitivity) {
-							alert('Shake!');
+							alert( $('.current').attr('id') );
 						}
 
 						// Update new position
 						x2 = x1;
 						y2 = y1;
 						z2 = z1;
-					}, 150);
+					}, 300);
 				}
+			}
+			
+			function disableShake() {
+				window.removeEventListener( 'devicemotion' );
+			}
+			
+			// Some sample Javascript functions:
+			$(function(){
+				// Orientation callback event
+				$('body').bind('turn', function(e, data){
+					$('#orient').html('Orientation: ' + data.orientation);
+				});
+				
 			});
 			
 			function addItem( spot, item ) {
