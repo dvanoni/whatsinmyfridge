@@ -25,7 +25,7 @@
 	foreach($recipes as $recipe) {
 		echo '<a class="recipeView" href="' . $recipe->href . '" target="_blank">';
 		echo '<div class="titleBox" style="background-color:#FFF;clear:both;">';
-		echo '<div class="picture"><img src="' . $recipe->thumbnail . '" alt="' . $recipe->title . '" width="120" height="120" class="portrait" align="left"/></div>';
+		echo '<div class="picture"><img src="' . $recipe->thumbnail . '" alt="' . $recipe->title . '" width="96px" height="96px" class="portrait" align="left"/></div>';
 		echo '<div class="title"><h1>' . $recipe->title . '</h1></div>';
 		echo '<div class="quarterBox">';
 		echo $recipe->ingredients;
