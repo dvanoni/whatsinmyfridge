@@ -158,6 +158,15 @@
 								
 			});
 			
+			function sendSMS() {
+				alert('hello!');
+				$.post( 'https://ACc434bc16a7fd6bbb82c531f5dbc2cca2:2d411ed8581fbccc61ce6944eaf92d05@api.twilio.com/2010-04-01/Accounts/ACc434bc16a7fd6bbb82c531f5dbc2cca2/SMS/Messages.json', 
+							{From: '+14155992671', To: '+17608894854', Body:'TEST!'}, 
+							function( data ) {
+								alert( data );
+							});
+			}
+			
 			function addItem( spot, item ) {
 				// TODO change this to have the correct info about the apple
 				$( '#' + spot ).append(
@@ -453,6 +462,7 @@
 								<h1 style='font-size:36px;'>Shake to party</h1>
 							</div>
 						</div>
+						<a href='#' class='grayButton' onclick='sendSMS();'>Change Type</a><br/>
 					</div>
 				</div>
 			</div>
@@ -462,12 +472,12 @@
 					<a href="#home" class="back">Back</a>
 				</div>
 				<div class='s-scrollwrapper'>
-					<div>
-						<div style='padding:8px;background: -webkit-gradient(linear, 0%, 0%, 0%, 100%, from(#CCC), color-stop(0.6, #CCC), to(#AAA);'>	
+					<div>			
+						<div style='padding:8px;background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#CCC), color-stop(0.6, #CCC), to(#AAA));'>
 							<ul style='margin:0;'>
-								<li><input type="text" id="query" placeHolder="Search for a recipe" onkeyup="searchRecipes(this)"/></li>
+								<li><input type="text" id="query" placeHolder="Search for a recipe" onkeyup="searchRecipes(this)"></li>
 							</ul>
-						</div>
+						</div>															
 						<div id="search_results"></div>
 					</div>
 				</div>
