@@ -163,9 +163,48 @@
 								
 			});
 			
+			function resetParty() {
+				document.sent == false;
+				$('#party-invitees').hide();
+				$('#party-cat').fadeIn();
+			}
+			
 			function sendSMS() {
-				if( document.sent == undefined ) {
-					$.post( 'api/send_sms.php', null, function(data) {}); 
+				if( document.sent == undefined || !document.sent ) {
+					//$.post( 'api/send_sms.php', null, function(data) {}); 
+					$('#party-cat').fadeOut('slow', function() {
+						var cool_friend = [];
+						
+						if( document.friends == undefined || document.friends.length == undefined ) {
+							document.sent = false;
+							loadFriends(sendSMS);
+							return;
+						}
+						
+						for( var i = 0; i < document.friends.length; i++ ) {
+							var friend = document.friends[i];
+							
+							if( friend.food.join('').indexOf('wine') != -1 ) {
+								cool_friend.push( friend );
+							} else if( friend.food.join('').indexOf('beer') != -1 ) {
+								cool_friend.push( friend );
+							}
+						}
+						
+						var html = '<ul class="rounded">';
+						for( var i = 0; i < cool_friend.length; i++ ) {
+							html += "<li>" +
+										"<table><tr><td>" +
+											"<img src='img/friend.png'>" +
+										"</td><td style='padding-left:16px;'>" + 
+											"<div>" + cool_friend[i].name + " has been invited</div>" +
+										"</td></tr>" +
+									"</table></li>";
+						}
+						html += "</ul>"
+						$('#party-invitees').html( html ).fadeIn();
+						
+					});
 				}
 				
 				document.sent = true;
@@ -190,16 +229,33 @@
 			
 			function friendDetails( friend_id ) {
 				$('#friend-name').html( document.friends[ friend_id ].name );
+				
+				var my_ingredients = [];
+				for( var i = 0; i < document.food_data.length; i++ ) {
+					if( document.food_data[i].unknown ) {
+						continue;
+					}
+					my_ingredients.push( document.food_data[i].name.toLowerCase() );
+				}
+				
+				my_ingredients = my_ingredients.join(',');
+				var friends_ingredients = document.friends[ friend_id ].food.join(',');
+				
+				$.get( 'api/recipe_search.php', {ingredients: my_ingredients + ',' + friends_ingredients }, function( data ) {
+					$('#friend-recipes').html( data );
+				});
+				
 			}
 			
-			function loadFriends( ) {
+			function loadFriends( callback ) {
 				var status = ['Needs to lay off the wine', 'Needs attention', 
 								'Party?', 'Ramen is a lifestyle', 
-								'I may need to work out more in the near future', 'It\'s a bit chilly here today',
+								'I need to work out.', 'It\'s a bit chilly here today',
 								'FEED ME!!!' ];
 				
 				$.getJSON( 'api/get_friends.php', null, function( data ) {
 					document.friends = data;
+					$('#friends').html('');
 					for( var i = 0; i < data.length; i++ ) {
 						var friend = data[i];
 						var foods = friend.food.join(',');
@@ -216,6 +272,10 @@
 										"</table></a></li>";
 						
 						$('#friends').append( html );
+					}
+					
+					if( callback != undefined ) {
+						callback();
 					}
 				});
 			}
@@ -305,7 +365,7 @@
 					</a> 
 				</li> 
 				<li> 
-					<a href="#plan" mask="img/tabs/party.png" mask2x="img/tabs/party.png"> 
+					<a href="#plan" mask="img/tabs/party.png" mask2x="img/tabs/party.png" onclick='resetParty();'> 
 						<strong>Plan</strong>
 					</a> 
 				</li> 
@@ -392,10 +452,8 @@
 							</div>
 							<div style='clear:both;line-height:0;'></div>
 						</div>
-						<div>
-							<h2>Let's Get Cookin'</h2>
-						</div>
-						<div id='friend-recipes'></div>
+						<h2>Let's Get Cookin'</h2>
+						<div id='friend-recipes' style='height:1024px;'></div>
 					</div>
 				</div>
 			</div>
@@ -419,13 +477,18 @@
 			<div id='plan'>
 				<div class="toolbar">
 					<h1>Plan A Party</h1>
+					<a href="javascript:sendSMS();" class="back">Back</a>
 				</div>
 				<div class='s-scrollwrapper'>
 					<div>
-						<div style='text-align:center;margin-top:32px;'>
-							<div><img src='img/party_cat.png'></div>
-							<div>
-								<h1 style='font-size:36px;'>Shake to party</h1>
+						<div id='party-invitees'>
+						</div>
+						<div id='party-cat'>
+							<div style='text-align:center;margin-top:32px;'>
+								<div><img src='img/party_cat.png'></div>
+								<div>
+									<h1 style='font-size:36px;'>Shake to party</h1>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -437,10 +500,10 @@
 					<a href="#home" class="back">Back</a>
 				</div>
 				<div class='s-scrollwrapper'>
-					<div>			
+					<div>
 						<div style='padding:8px;background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#CCC), color-stop(0.6, #CCC), to(#AAA));'>
 							<ul style='margin:0;'>
-								<li><input type="text" id="query" placeHolder="Type to browse for recipe!" onkeyup="searchRecipes(this)"></li>
+								<li><input type="text" id="query" placeHolder="Search for a recipe!" onkeyup="searchRecipes(this)"></li>
 							</ul>
 						</div>
 						<div id="search_results" style="height:1500px;"></div>

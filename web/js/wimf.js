@@ -25,6 +25,7 @@ function addItem( spot, data ) {
 							"</optgroup>" +
 							"<optgroup label='Meat'>" +
 								"<option value='beef'>Beef</option>" +
+								"<option value='spam'>Spam</option>" +
 							"</optgroup>" +							
 							"<optgroup label='Veggies'>" +
 								"<option value='pepper'>Pepper</option>" +
