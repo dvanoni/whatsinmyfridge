@@ -1,20 +1,25 @@
 <?php
-require_once("Thread.php");
+require_once('Thread.php');
 
 // Test to see if threading is available
 if (!Thread::available()) {
 	die("ERROR: Threads not supported\n");
 }
 
-$listen_port = 8888;
+$listen_port = 8788;
 
 
-echo "Starting server...\n";
+mysql_connect('mysql.dvanoni.com', 'whatsinmyfridge', 'coolfront');
+mysql_select_db('whatsinmyfridge');
+mysql_close();
 
-// Create socket that listens for connections on $listen_port
-$listen_socket = socket_create_listen($listen_port);
-if ($listen_socket === false) {
-	die("ERROR: unable to create listen socket\n");
+
+function handleMessage($msg) {
+	$msgArray = explode(',', $msg);
+
+	$sensorId = $msgArray[0];
+	$prevValue = $msgArray[1];
+	$currentValue = $msgArray[2];
 }
 
 function listenForClients($socket) {
@@ -33,6 +38,7 @@ function listenForClients($socket) {
 				break;
 			}
 			echo "$buf\n";
+			handleMessage($buf);
 		}
 		echo "Client disconnected.\n";
 	}
@@ -40,18 +46,28 @@ function listenForClients($socket) {
 	echo "Listening stopped.\n";
 }
 
-$listener = new Thread("listenForClients");
+
+
+echo "Starting server...\n";
+
+// Create socket that listens for connections on $listen_port
+$listen_socket = socket_create_listen($listen_port);
+if ($listen_socket === false) {
+	die("ERROR: unable to create listen socket\n");
+}
+
+$listener = new Thread('listenForClients');
 $listener->start($listen_socket);
 
 
 echo "\nType 'q' to quit\n\n";
 
-$stdin = fopen("php://stdin", "r");
+$stdin = fopen('php://stdin', 'r');
 
 $input;
 do {
 	$input = trim(fgets($stdin));
-} while ($input != "q");
+} while ($input != 'q');
 
 fclose($stdin);
 
