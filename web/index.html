@@ -117,14 +117,23 @@
 				
 				// Get datars
 				$.getJSON( 'api/check_fridge.php', null, function(data) {
+						// Save food data for later reference
 						document.food_data = data;
 						var mapping = ['1sp1', '1sp2', '2sp1', '2sp2'];
 						
+						// Clear spaces
+						for( var i = 0; i < mapping.length; i++ ) {
+							var space = mapping[i];
+							$('#' + space ).html();
+						}
+						
+						// Load items into their respective places
 						for( var i = 0; i < data.length; i++ ) {
 							var space = mapping[ data[i].sensor ];
 							addItem( space, data[i] );
 						}
 						
+						// Hide fancy progress indicator
 						$('.loader').hide();
 					});
 
