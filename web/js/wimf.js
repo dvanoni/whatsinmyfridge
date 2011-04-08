@@ -35,6 +35,7 @@ function addItem( spot, data ) {
 							"</optgroup>" +
 							"<optgroup label='Fruits'>" +
 								"<option value='apple'>Apple</option>" +
+								"<option value='orange'>Orange</option>" +
 							"</optgroup>" +
 							"<optgroup label='Meat'>" +
 								"<option value='beef'>Beef</option>" +
@@ -44,7 +45,9 @@ function addItem( spot, data ) {
 								"<option value='pepper'>Pepper</option>" +
 							"</optgroup>" +
 							"<optgroup label='Misc'>" +
-								"<option value='wine'>Alcohol</option>" +
+								"<option value='wine'>Wine</option>" +
+								"<option value='beer'>beer</option>" +
+								"<option value='bread'>Bread</option>" +
 								"<option value='muffin'>Sweets</option>" +
 								"<option value='pizza'>Pizza</option>" +
 							"</optgroup>" +
