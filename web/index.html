@@ -53,6 +53,27 @@
 		<script src="extensions/jqt.bars/jqt.bars.js" type="application/x-javascript" charset="utf-8"></script> 
 		
 		<script type="text/javascript" charset="utf-8">
+			function recipeSearch() {
+				var ingredients = [];
+				// TODO: get checkboxes only from ingredientList form
+				$("input:checked").each(function() {
+					ingredients.push(this.value);
+				});
+				ingredients = ingredients.join(',');
+				console.log(ingredients);
+				jQuery.getJSON('recipe_search.php',
+							   {'ingredients' : ingredients}, function(recipes) {
+					console.log('received ' + recipes.length + ' recipes!');
+					var html = ['<ul class="rounded">'];
+					for (var i = 0; i < recipes.length; ++i) {
+						var recipe = recipes[i];
+						html.push('<li><img src="', recipe.thumbnail, '"</li>');
+					}
+					html.push('</ul>');
+					document.getElementById('recipeResults').innerHTML = html.join('');
+				});
+			}
+
 			var jQT = new $.jQTouch({
 				icon: 'jqtouch.png',
 				addGlossToIcon: false,
@@ -199,6 +220,22 @@
 			<div id='recipes'>
 				<div class="toolbar">
 					<h1>Recipe Search</h1>
+				</div>
+				<div class='s-scrollwrapper'>
+					<div>
+						<form id="ingredientList">
+							<ul class="edit rounded">
+								<!-- php to query backend and then put in a loop -->
+								<li>
+									<input type="checkbox" name="name1" value="onions" title="onions" />
+								</li>
+								<li>
+									<input type="checkbox" name="name2" value="garlic" title="garlic" />
+								</li>
+							</ul>
+							<a style="margin:0 10px;color:rgba(0,0,0,.9)" href="recipe_results.html" class="submit whiteButton">Find Recipes!</a>
+						</form>
+					</div>
 				</div>
 			</div>
 			<div id='fridge-connect'>
