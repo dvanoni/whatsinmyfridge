@@ -115,7 +115,14 @@
 				useFastTouch: true
 			});
 			
-			function enableShake() {
+			
+			// Some sample Javascript functions:
+			$(function(){
+				// Orientation callback event
+				$('body').bind('turn', function(e, data){
+					$('#orient').html('Orientation: ' + data.orientation);
+				});
+
 				if (typeof window.DeviceMotionEvent != 'undefined') {
 					// Shake sensitivity (a lower number is more)
 					var sensitivity = 20;
@@ -146,19 +153,7 @@
 						z2 = z1;
 					}, 300);
 				}
-			}
-			
-			function disableShake() {
-				window.removeEventListener( 'devicemotion' );
-			}
-			
-			// Some sample Javascript functions:
-			$(function(){
-				// Orientation callback event
-				$('body').bind('turn', function(e, data){
-					$('#orient').html('Orientation: ' + data.orientation);
-				});
-				
+								
 			});
 			
 			function addItem( spot, item ) {
