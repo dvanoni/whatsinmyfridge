@@ -53,6 +53,7 @@
 		<script src="extensions/jqt.bars/jqt.bars.js" type="application/x-javascript" charset="utf-8"></script> 
 		
 		<script type="text/javascript" charset="utf-8">
+/*
 			function recipeSearch() {
 				var ingredients = [];
 				// TODO: get checkboxes only from ingredientList form
@@ -72,6 +73,22 @@
 					html.push('</ul>');
 					document.getElementById('recipeResults').innerHTML = html.join('');
 				});
+			}
+*/
+			// Send parameters as GET to php
+			function set_search_params(elem) {
+				var url = [];
+				url.push($(elem).attr('href'));
+				url.push('?ingredients=');
+				var ingredients = [];
+				$("input:checked").each(function() {
+					ingredients.push(this.value);
+				});
+				ingredients = ingredients.join(',');
+				
+				url.push(ingredients);
+				console.log(url.join(''));
+				$(elem).attr('href', url.join(''));
 			}
 
 			var jQT = new $.jQTouch({
@@ -223,18 +240,19 @@
 				</div>
 				<div class='s-scrollwrapper'>
 					<div>
-						<form id="ingredientList">
-							<ul class="edit rounded">
-								<!-- php to query backend and then put in a loop -->
-								<li>
-									<input type="checkbox" name="name1" value="onions" title="onions" />
-								</li>
-								<li>
-									<input type="checkbox" name="name2" value="garlic" title="garlic" />
-								</li>
-							</ul>
-							<a style="margin:0 10px;color:rgba(0,0,0,.9)" href="recipe_results.html" class="submit whiteButton">Find Recipes!</a>
-						</form>
+						<ul class="edit rounded">
+							<!-- php to query backend and then put in a loop -->
+							<li>
+								<input type="checkbox" name="ingredient" value="onions" title="onions" />
+							</li>
+							<li>
+								<input type="checkbox" name="ingredient" value="garlic" title="garlic" />
+							</li>
+							<li>
+								<input type="checkbox" name="ingredient" value="chicken" title="chicken" />
+							</li>
+						</ul>
+						<a style="margin:0 10px;color:rgba(0,0,0,.9)" onclick="set_search_params(this)" href="recipe_search.php" class="whiteButton">Find Recipes!</a>
 					</div>
 				</div>
 			</div>
