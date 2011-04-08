@@ -66,12 +66,9 @@
 			function set_search_params(elem, is_query) {
 				var url = 'api/recipe_search.php';
 				
-				
-				
 				if (is_query) {
 					
 					$.get( url, {query: $('input#query').val()}, function(data) {
-						alert( data );
 						$('#recipe-results').html( data );
 					});
 					
@@ -85,7 +82,6 @@
 					ingredients = ingredients.join(',');
 					
 					$.get( url, {ingredients: ingredients }, function( data ) {
-						alert( data );
 						$('#recipe-results').html( data );
 					});
 				}
