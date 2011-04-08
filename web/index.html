@@ -146,8 +146,10 @@
 						// Check to see if we need to update this sensor position
 						for( var j = 0; j < document.food_data.length; j++ ) {
 							if( document.food_data[j].sensor == data[i].sensor ) {
-								document.food_data[j] = data[i];
-								addItem( mapping[ data[i].sensor], data[i] );
+								if( document.food_data[j].name != data[i].name ) {
+									document.food_data[j] = data[i];
+									addItem( mapping[ data[i].sensor], data[i] );
+								}
 							}
 						}
 						

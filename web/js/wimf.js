@@ -52,6 +52,6 @@ function addItem( spot, data ) {
 					"</div>";
 	}
 	
-	$( '#' + spot ).append( food_item );
+	$( '#' + spot ).html( food_item );
 	$('.food-details').fadeIn('slow');
 }
