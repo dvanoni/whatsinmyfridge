@@ -6,9 +6,9 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 		
 		<style type="text/css" media="screen">@import "jqtouch/jqtouch.css";</style>
-		<style type="text/css" media="screen">@import "themes/wimf/theme.css";</style>
+		<style type="text/css" media="screen">@import "themes/apple/theme.css";</style>
 		<style type="text/css" media="screen">@import "extensions/jqt.bars/jqt.bars.css";</style>
-		<style type="text/css" media="screen">@import "extensions/jqt.bars/themes/jqt/theme.css";</style>
+		<style type="text/css" media="screen">@import "extensions/jqt.bars/themes/apple/theme.css";</style>
 		<style type="text/css" media="screen">
 			#fridge > IMG {
 				margin-bottom:-5px;
@@ -131,13 +131,27 @@
 				});
 			});
 			
-			function addItem() {
+			function addItem( spot, item ) {
 				// TODO change this to have the correct info about the apple
-				$('#shelf-2').append(
+				$( '#' + spot ).append(
 								"<a class='food-details' style='display:none;' href='#details'>" +
 									"<div class='food' style='background:url(\"img/food/apple.png\");'></div>" +
 								"</a>" );
 				$('.food-details').fadeIn('slow');
+			}
+			
+			function changeType( elem ) {
+				$( elem ).parent().fadeOut( function() {
+					var spot_id = $(this).parent().attr('id');
+					$(this).remove();
+					addItem( spot_id, null );
+				});
+			}
+			
+			function loadDetails( name, weight, age ) {
+				$( '#food-name' ).html( name );
+				$( '#food-weight' ).html( weight );
+				$( '#food-age' ).html( age );
 			}
 		</script>
 		<style type="text/css" media="screen">
@@ -159,11 +173,7 @@
 				font-weight: bold;
 				text-decoration: none;
 			}
-			
-			BODY > DIV {
-				height:200px;
-			}
-			
+						
 			#footer {
 				position:absolute;
 				z-index:2;
@@ -175,14 +185,21 @@
 				padding:0;
 				border-top:1px solid #444;
 			}
+			
+			SELECT.unknown {
+				border:0;
+				color:transparent;
+				background:0;
+				height:64px;
+				width:64px;
+			}
 		</style>
 	</head>
 	<body>
-		<!-- tabbar --> 
 		<div id="tabbar"> 
 			<div><ul> 
 				<li> 
-					<a href="#home" mask="bar_img/jqt.png" mask2x="bar_img/jqt@2x.png"> 
+					<a href="#home" mask="img/tabs/refrigerator-tab.png" mask2x="bar_img/jqt@2x.png"> 
 						<strong>My Fridge</strong> 
 					</a> 
 				</li> 
@@ -207,29 +224,28 @@
 			<div id='details'>
 				<div class="toolbar">
 					<h1>Details</h1>
-					<a href="#home" class="back">Back</a>
+					<a href="#" class="back">Back</a>
 				</div>
 				<div class='s-scrollwrapper'>
 					<div>
-						<div style='padding:32px;background-color:#CCC;'>
+						<div style='padding:32px;background-color:#CCC;border-bottom:2px solid #333;border-top:2px solid #333;'>
 							<table width='100%;'>
 								<tr><td style='text-align:center;'>
 									<img src='img/food/apple.png'>
 								</td><td style='color:#333;'>
-									<div style='margin-bottom:4px;'>Apple ( Fuji )</div>
+									<div id='food-name' style='color:#1087be;margin-bottom:4px;font-weight:bold;'>Apple ( Fuji )</div>
 									<div style='margin-bottom:4px;' style='font-size:12px;'>
-										<span style='font-weight:bold;'>Weight:</span> 100.2g
+										<span style='font-weight:bold;'>Weight:</span><span id='food-weight'>100.2g</span>
 									</div>
-								</tr>
+								</td></tr>
 							</table>
 							<div style='text-align:center;'>
-								<span style='color:#666;'>5 days old</span>
+								<span id='food-age' style='color:#666;'>5 days old</span>
 							</div>
 						</div>
-						<div style='padding:16px;border-top:2px solid #000;'>
+						<div style='padding:16px;'>
 							<a href='#' class='grayButton'>Change Type</a><br/>
 							<a href='#' class='whiteButton'>Remove from fridge</a>
-							<a href='ajax.html' class='grayButton'>akfljakdfljad</a>
 						</div>	
 					</div>
 				</div>
@@ -260,6 +276,41 @@
 				<div class="toolbar">
 					<h1>Fridge Connect</h1>
 				</div>
+				<ul class="plastic">
+					<li class="arrow">
+						<a href="#">
+							<table>
+								<tr><td>
+									<img src='img/friend.png'>
+								</td><td style='padding-left:16px;'>
+									Andrew's Fridge
+								</td></tr>
+							</table>
+						</a>
+					</li>
+					<li class="arrow">
+						<a href="#">
+							<table>
+								<tr><td>
+									<img src='img/friend.png'>
+								</td><td style='padding-left:16px;'>
+									Lynn's Fridge
+								</td></tr>
+							</table>
+						</a>
+					</li>
+					<li class="arrow">
+						<a href="#">
+							<table>
+								<tr><td>
+									<img src='img/friend.png'>
+								</td><td style='padding-left:16px;'>
+									Leilani's Fridge
+								</td></tr>
+							</table>
+						</a>
+					</li>
+				</ul>
 			</div>
 			<div id='deals'>
 				<div class="toolbar">
@@ -273,32 +324,58 @@
 				</div>
 				<div class="s-scrollwrapper">
 					<div>
-						<ul class='fullscreen'><li>
-							<div id='fridge'>
-								<div class='shelf'>
-									<div id='shelf-1' class='shelf-padding'>
-										<a class='food-details' href='#details'>
-											<div class='food' style='background:url("img/food/apple.png");'></div>
-										</a>
-										<a class='food-details' href='#details'>
-											<div class='food' style='background:url("img/food/apple.png");'></div>
-										</a>
-										<a class='food-details' href='#details'>
+						<div id='fridge'>
+							<div class='shelf'>
+								<div id='shelf-1' class='shelf-padding'>
+									<div id='1sp1' class='food-details'>
+										<a href='#details' class='food-details'>
 											<div class='food' style='background:url("img/food/apple.png");'></div>
 										</a>
 									</div>
-								</div>
-								<div class='shelf'>
-									<div id='shelf-2' class='shelf-padding'></div>
-								</div>
-								<div class='shelf'>
-									<div id='shelf-3' class='shelf-padding'></div>
-								</div>
-								<div class='shelf'>
-									<div id='shelf-3' class='shelf-padding'></div>
+									<div id='1sp2' class='food-details'>
+										<a href='#details' class='food-details'>
+											<div class='food' style='background:url("img/food/apple.png");'></div>
+										</a>
+									</div>
+									<div id='1sp3' class='food-details'>
+										<div class='food' style='background:url("img/unknown-white.png");'>
+											<select class='unknown' onchange='changeType(this);'>
+												<optgroup label='Other'>
+													<option value='leftovers'>Leftovers</option>
+													<option value='other'>Other</option>
+												</optgroup>
+												<optgroup label='Fruits'>
+													<option value='apple'>Apple</option>
+													<option>Apple</option>
+													<option>Apple</option>
+													<option>Apple</option>
+												</optgroup>
+												<optgroup label='Veggies'>
+													<option>Apple</option>
+													<option>Apple</option>
+													<option>Apple</option>
+													<option>Apple</option>
+												</optgroup>
+												<optgroup label='Dairy/Poultry'>
+													<option>Yogurt</option>
+													<option>Milk</option>
+													<option>Eggs</option>
+												</optgroup>
+											</select>
+										</div>
+									</div>
 								</div>
 							</div>
-						</li></ul>
+							<div class='shelf'>
+								<div id='shelf-2' class='shelf-padding'></div>
+							</div>
+							<div class='shelf'>
+								<div id='shelf-3' class='shelf-padding'></div>
+							</div>
+							<div class='shelf'>
+								<div id='shelf-3' class='shelf-padding'></div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

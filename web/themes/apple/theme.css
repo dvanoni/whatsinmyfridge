@@ -478,7 +478,8 @@ ul li.arrow small.counter {
 .plastic {
     margin: 0;
     padding: 0;
-    background: rgb(173,173,173);
+	background: #FFF;
+    /* background: rgb(173,173,173); */
 }
 
 .plastic ul {

@@ -467,10 +467,11 @@ is not recognized, like...
                     setPageHeight();
                   });
                 } else {
-                  $('#tabbar').hide(function () {
-                    _debug('\nHide tabbar');
-                    setPageHeight();
-                  });
+				  // BIGGEST LOAD OF BULLSHIT
+                  // $('#tabbar').hide(function () {
+                  //   _debug('\nHide tabbar');
+                  //   setPageHeight();
+                  // });
                 }
               }
             });
