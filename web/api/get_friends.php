@@ -1,7 +1,7 @@
 <?php
 	$items = array();
 
-	$item = array( 'id' => 1, 'name' => 'David', 'food' => array( 'apple', 'milk', 'chicken', 'beer' ) );
+	$item = array( 'id' => 1, 'name' => 'David', 'food' => array( 'apple', 'milk', 'beer' ) );
 	array_push( $items, $item );
 
 	$item = array( 'id' => 2, 'name' => 'Andrew', 'food' => array( 'beef', 'milk', 'brie', 'wine' ) );
