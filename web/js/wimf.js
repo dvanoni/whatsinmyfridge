@@ -11,6 +11,8 @@ function food_details( sensor ) {
 		return;
 	}
 	
+	document.selected_food = details;
+	
 	$('#food-name').html( details.name );
 	$('#food-weight').html( details.weight + 'g' );
 	$('#food-age').html( details.age );

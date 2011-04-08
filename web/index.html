@@ -112,44 +112,57 @@
 				],
 				useFastTouch: true
 			});
-
-			$(document).ready(function() {
-				window.setInterval(function() {
-					$.getJSON('api/check_fridge.php', null, function(data) {
-						// nothing has changed
-						if (document.food_data === data) {
-							return;
-						}
-
-						var mapping = ['1sp1', '1sp2', '2sp1', '2sp2'];
-						var spaces = {};
-						for (var i = 0; i < mapping.length; ++i) {
-							spaces[mapping[i]] = 0;
-						}
-						
-						// nothing now where there was something before
-						for (var i = 0; i < data.length; i++) {
-							spaces[mapping[ data[i].sensor ]] = 1;
-						}
+			
+			function remove_from_fridge() {
+				var mapping = ['1sp1', '1sp2', '2sp1', '2sp2'];
+				if( document.selected_food ) {
+					$('#' + mapping[ document.selected_food.sensor ] ).html('');
+				}
+				document.selected_food = null;
+			}
+			
+			function updateFridge() {
+				$.getJSON('api/check_fridge.php', null, function(data) {
+					// nothing has changed
+					if (document.food_data === data) {
+						return;
+					}
 					
-						// ahhhhhh neeed moree foood!
-						for (var i = 0; i < spaces.length; ++i) {
-							var was_present = $('#' + mapping[data[i].sensor]).html().length != 0;
-							if (was_present && (spaces[i] == 0)) {
-								alert('no more food in ' + spaces[i]);
-								$('.lowfood', $('#' + spaces[i]).attr('display', 'block'));
+					var mapping = ['1sp1', '1sp2', '2sp1', '2sp2'];
+					var spaces = {};
+					for (var i = 0; i < mapping.length; ++i) {
+						spaces[mapping[i]] = false;
+					}
+					
+					// nothing now where there was something before
+					for (var i = 0; i < data.length; i++) {
+						spaces[ mapping[ data[i].sensor ]] = true;
+					}
+				
+					// ahhhhhh neeed moree foood!
+					for( var i = 0; i < mapping.length; i++ ) {
+						var was_present = $('#' + mapping[i] ).html().length != 0;
+						if( was_present && !spaces[ mapping[i] ] ) {
+							$('.lowfood', $('#' + mapping[i] )).show();
+							
+							// Add old data in
+							for( var j = 0; j < document.food_data.length; j++ ) {
+								if( document.food_data[j].sensor == i ) {
+									data.push( document.food_data[j] );
+									break;
+								}
 							}
 						}	
-
-						document.food_data = data;
-					});
-
-				}, 10000);
-			});
+					}
+					
+					document.food_data = data;
+				});				
+			}
 
 			// Some sample Javascript functions:
 			$(function(){
-
+				window.setInterval( updateFridge, 5000 );
+				
 				// Orientation callback event
 				$('body').bind('turn', function(e, data){
 					$('#orient').html('Orientation: ' + data.orientation);
@@ -447,7 +460,7 @@
 						</div>
 						<div style='padding:16px;'>
 							<a href='#' class='grayButton'>Change Type</a><br/>
-							<a href='#' class='whiteButton'>Remove from fridge</a>
+							<a href='#home' class='whiteButton' onclick='remove_from_fridge();'>Remove from Fridge</a>
 						</div>	
 					</div>
 				</div>
