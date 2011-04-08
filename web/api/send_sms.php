@@ -17,6 +17,8 @@
     $people = array(
         "+17608894854"=>"David",
 		"+18186441679"=>"Andrew",
+		"+14083939442"=>"Lynnbacca",
+		"+14153209094"=>"Lei"
     );
          
     // iterate over all our friends
@@ -27,7 +29,7 @@
             "POST", array(
             "To" => $number,
             "From" => "+14155992671",
-            "Body" => "Hey $name, Let's Party!"
+            "Body" => "Hey $name, please bring beer!"
         ));
         if($response->IsError)
             echo "Error: {$response->ErrorMessage}";
