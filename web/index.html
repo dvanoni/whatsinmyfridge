@@ -76,19 +76,24 @@
 			}
 */
 			// Send parameters as GET to php
-			function set_search_params(elem) {
-				var url = [];
-				url.push($(elem).attr('href'));
-				url.push('?ingredients=');
-				var ingredients = [];
-				// TODO: more specific check in case there are more checkboxes elsewhere
-				$("input:checked").each(function() {
-					ingredients.push(this.value);
-				});
-				ingredients = ingredients.join(',');
-				
-				url.push(ingredients);
-				console.log(url.join(''));
+			function set_search_params(elem, is_query) {
+				var url = ['recipe_search.php'];
+				if (is_query) {
+					url.push('?query=');
+					url.push(encodeURIComponent($('input#query').val()));
+				} else {
+					//url.push($(elem).attr('href'));
+					url.push('?ingredients=');
+					var ingredients = [];
+					// TODO: more specific check in case there are more checkboxes elsewhere
+					$("input:checked").each(function() {
+						ingredients.push(encodeURIComponent(this.value));
+					});
+					ingredients = ingredients.join(',');
+					
+					url.push(ingredients);
+				}
+				alert(url.join(''));
 				$(elem).attr('href', url.join(''));
 			}
 
@@ -258,8 +263,8 @@
 				<div class='s-scrollwrapper'>
 					<div>
 						<ul class="rounded">
-							<li class="forward"><a href="#my_ingredients"> Use My Ingredients</a></li>
-							<li class="forward">Generic Search</li>
+							<li class="forward"><a href="#my_ingredients">Use My Ingredients</a></li>
+							<li class="forward"><a href="#recipe_search">Generic Search</a></li>
 						</ul>
 <!--
 						<ul class="edit rounded">
@@ -324,6 +329,20 @@
 					<h1>Coupons/Deals</h1>
 				</div>
 			</div>
+			<div id="recipe_search">
+				<div class="toolbar">
+					<h1>Find a Recipe</h1>
+					<a href="#home" class="back">Back</a>
+				</div>
+				<div class='s-scrollwrapper'>
+					<div>
+						<ul class="rounded">
+							<li><input type="text" id="query" /></li>
+						</ul>	
+						<a style="margin:0 10px;color:rgba(0,0,0,.9)" onclick="set_search_params(this, true)" href="recipe_search.php" class="whiteButton">Find Recipes!</a>
+					</div>
+				</div>
+			</div>
 			<div id="my_ingredients">
 				<div class="toolbar">
 					<h1>My Ingredients</h1>
@@ -340,7 +359,7 @@
 								}
 							});
 						</script>
-						<a style="margin:0 10px;color:rgba(0,0,0,.9)" onclick="set_search_params(this)" href="recipe_search.php" class="whiteButton">Find Recipes!</a>
+						<a style="margin:0 10px;color:rgba(0,0,0,.9)" onclick="set_search_params(this, false)" href="recipe_search.php" class="whiteButton">Find Recipes!</a>
 					</div>
 				</div>
 			</div>

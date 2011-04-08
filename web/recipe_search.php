@@ -1,11 +1,18 @@
 <?php
-  // Comma delimited
-  $ingredients = $_GET['ingredients'];
   $apiUrl = 'http://www.recipepuppy.com/api/';
-  $queryUrl = $apiUrl 
-              . '?i=' . urlencode($ingredients)
-			  . '&onlyImages=1';
+  if (isset($_GET['ingredients'])) {
+  	  // Comma delimited i hope
+	  $ingredients = $_GET['ingredients'];
+	  $queryUrl = $apiUrl 
+				  . '?i=' . urlencode($ingredients)
+				  . '&onlyImages=1';
+  } else {
+	 $query = $_GET['query'];
+	 $queryUrl = $apiUrl . '?q=' . urlencode($query);
+  }
+  echo $queryUrl;
   $content = file_get_contents($queryUrl);
+
   //header('Content-type: application/json');
   //header($_SERVER["Server_PROTOCOL"] . " 200 OK");
 
