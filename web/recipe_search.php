@@ -29,13 +29,17 @@
 	</div>
 	<div class='s-scrollwrapper'>
 		<div>
-			<ul class="rounded">
 			<?php
 				foreach($recipes as $recipe) {
-					echo '<li>' . $recipe->title . '</li>';
+					echo '<div class="titleBox" style="background-color:#FFF;clear:both;">';
+					echo '<div class="picture"><img src="' . $recipe->thumbnail . '" alt="' . $recipe->title . '" width="120" height="120" class="portrait" align="left"/></div>';
+					echo '<div class="title"><h1>' . $recipe->title . '</h1></div>';
+					echo '<div class="quarterBox">';
+					echo 'garlic,garlic';
+					echo '</div><div style="clear:both;"></div></div>';
+					//echo '<li>' . $recipe->title . '</li>';
 				}
 			?>
-			</ul>
 		</div>
 	</div>
 </div>

@@ -79,7 +79,6 @@
 					
 					url.push(ingredients);
 				}
-				alert(url.join(''));
 				$(elem).attr('href', url.join(''));
 			}
 
@@ -473,6 +472,7 @@
 					<a href="#home" class="back">Back</a>
 				</div>
 				<div class='s-scrollwrapper'>
+					<div>
 						<div style='padding:8px;background: -webkit-gradient(linear, 0%, 0%, 0%, 100%, from(#CCC), color-stop(0.6, #CCC), to(#AAA);'>	
 							<ul style='margin:0;'>
 								<li><input type="text" id="query" placeHolder="Search for a recipe" onkeyup="searchRecipes(this)"/></li>
@@ -480,6 +480,7 @@
 						</div>
 						<div id="search_results"></div>
 					</div>
+				</div>
 			</div>
 			<div id="my_ingredients">
 				<div class="toolbar">

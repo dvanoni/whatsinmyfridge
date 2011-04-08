@@ -20,3 +20,38 @@ label.checkbox_label {
 	padding-top: 10px;
 	padding-left: 8px;
 }
+
+.quarterBox {
+	border: solid 1px #DDDDDD;
+		margin: 0em 0em 0.2em 0em;
+			padding: 0.2em;
+}
+
+.classList {
+	list-style: none;
+		margin: 0em 0em 0em 0em;
+			padding: 0em 0em 0em 1em;
+}
+.title h1 {
+		font-size: 22px;
+		background-color: #FFFFFF;
+		font-family: Calibri, Verdana, Sans-Serif;
+			font-variant: small-caps;
+				margin: 0px 0px 0px 0px;
+					padding: 0em;
+
+}
+.titleBox {
+	 margin: 0em auto;
+	 padding: 0.2em;
+}
+img.portrait {
+	float: left;
+		border-bottom: solid 2px #CCCCCC;
+			border-right: solid 2px #CCCCCC;
+				border-top: solid 1px #EEEEEE;
+				  border-left: solid 1px #EEEEEE;
+						background-color: #FFFFFF;
+							margin: 0px 8px 0px 1px;
+								padding: 10px;
+}
