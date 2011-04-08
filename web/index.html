@@ -90,7 +90,7 @@
 			var jQT = new $.jQTouch({
 				icon: 'wimf-icon.png',
 				addGlossToIcon: false,
-				startupScreen: 'jqt_startup.png',
+				startupScreen: 'splashscreen.png',
 				statusBar: 'black',
 				preloadImages: [
 					'themes/jqt/img/back_button.png',
@@ -99,22 +99,10 @@
 					'themes/jqt/img/grayButton.png',
 					'themes/jqt/img/whiteButton.png',
 					'themes/jqt/img/loading.gif',
-				    'bar_img/ajax.png',
-				    'bar_img/animation.png',
-				    'bar_img/demos.png',
-				    'bar_img/events.png',
-				    'bar_img/extensions.png',
-				    'bar_img/iphone.png',
-				    'bar_img/jqt.png',
-				    'bar_img/video.png',
-				    'bar_img/ajax@2x.png',
-				    'bar_img/animation@2x.png',
-				    'bar_img/demos@2x.png',
-				    'bar_img/events@2x.png',
-				    'bar_img/extensions@2x.png',
-				    'bar_img/iphone@2x.png',
-				    'bar_img/jqt@2x.png',
-				    'bar_img/video@2x.png'
+					'img/tabs/refrigerator-tab.png',
+					'img/tabs/recipe.png',
+					'img/tabs/social.png',
+					'img/tabs/party.png'
 				],
 				useFastTouch: true
 			});
@@ -134,7 +122,6 @@
 						
 						for( var i = 0; i < data.length; i++ ) {
 							var space = mapping[ data[i].sensor ];
-							
 							addItem( space, data[i] );
 						}
 						
@@ -490,7 +477,6 @@
 			<div id="home" class='current'>
 				<div class="toolbar">
 					<h1>My Fridge</h1>
-					<a href="javascript:document.location.reload();" style='float:right !important;'>Reload</a>
 				</div>
 				<div class="s-scrollwrapper">
 					<div>
