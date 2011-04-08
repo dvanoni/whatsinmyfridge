@@ -54,29 +54,14 @@
 		<script src="extensions/jqt.bars/jqt.bars.js" type="application/x-javascript" charset="utf-8"></script> 
 		
 		<script type="text/javascript" charset="utf-8">
-/*
-			function recipeSearch() {
-				var ingredients = [];
-				// TODO: get checkboxes only from ingredientList form
-				$("input:checked").each(function() {
-					ingredients.push(this.value);
-				});
-				ingredients = ingredients.join(',');
-				console.log(ingredients);
-				jQuery.getJSON('recipe_search.php',
-							   {'ingredients' : ingredients}, function(recipes) {
-					console.log('received ' + recipes.length + ' recipes!');
-					var html = ['<ul class="rounded">'];
-					for (var i = 0; i < recipes.length; ++i) {
-						var recipe = recipes[i];
-						html.push('<li><img src="', recipe.thumbnail, '"</li>');
-					}
-					html.push('</ul>');
-					document.getElementById('recipeResults').innerHTML = html.join('');
+			// Send parameters as GET to php
+			function searchRecipes(elem) {
+				var query = $(elem).val();
+				$.get('recipe_search_list.php', {'query' : query}, function(data) {
+					$('div#search_results').html(data);
 				});
 			}
-*/
-			// Send parameters as GET to php
+
 			function set_search_params(elem, is_query) {
 				var url = ['recipe_search.php'];
 				if (is_query) {
@@ -267,21 +252,6 @@
 							<li class="forward"><a href="#my_ingredients">Use My Ingredients</a></li>
 							<li class="forward"><a href="#recipe_search">Generic Search</a></li>
 						</ul>
-<!--
-						<ul class="edit rounded">
-							TODO: php to query backend and then put in a loop to create checkboxes
-							<li>
-								<input type="checkbox" name="ingredient" value="onions" title="onions" />
-							</li>
-							<li>
-								<input type="checkbox" name="ingredient" value="garlic" title="garlic" />
-							</li>
-							<li>
-								<input type="checkbox" name="ingredient" value="chicken" title="chicken" />
-							</li>
-						</ul>
-						<a style="margin:0 10px;color:rgba(0,0,0,.9)" onclick="set_search_params(this)" href="recipe_search.php" class="whiteButton">Find Recipes!</a>
--->
 					</div>
 				</div>
 			</div>
@@ -336,13 +306,13 @@
 					<a href="#home" class="back">Back</a>
 				</div>
 				<div class='s-scrollwrapper'>
-					<div>
-						<ul class="rounded">
-							<li><input type="text" id="query" /></li>
-						</ul>	
-						<a style="margin:0 10px;color:rgba(0,0,0,.9)" onclick="set_search_params(this, true)" href="recipe_search.php" class="whiteButton">Find Recipes!</a>
+						<div style='padding:8px;background: -webkit-gradient(linear, 0%, 0%, 0%, 100%, from(#CCC), color-stop(0.6, #CCC), to(#AAA);'>	
+							<ul style='margin:0;'>
+								<li><input type="text" id="query" placeHolder="Search for a recipe" onkeyup="searchRecipes(this)"/></li>
+							</ul>
+						</div>
+						<div id="search_results"></div>
 					</div>
-				</div>
 			</div>
 			<div id="my_ingredients">
 				<div class="toolbar">
@@ -359,7 +329,7 @@
 									var ing = ingredients[i];
 									$('ul#ingredient_list').append(
 										'<li><input type="checkbox" name="ingredient" value="' + ing + '" id="foo' + i + '"/>'
-										+ '<label for="foo' + i + '">' + ing + '</label></li>');
+										+ '<label class="checkbox_label" for="foo' + i + '">' + ing + '</label></li>');
 								}
 							});
 						</script>

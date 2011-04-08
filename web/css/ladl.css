@@ -15,3 +15,8 @@ input[type=checkbox] + label {
 input[type=checkbox]:checked + label {
         background-image: url(../img/check.png);
         }
+
+label.checkbox_label {
+	padding-top: 10px;
+	padding-left: 8px;
+}
