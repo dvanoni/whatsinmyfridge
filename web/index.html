@@ -123,6 +123,7 @@
 				var mapping = ['1sp1', '1sp2', '2sp1', '2sp2'];
 				if( document.selected_food ) {
 					$('#' + mapping[ document.selected_food.sensor ] ).html('');
+					$.get( 'api/delete_from_fridge.php', {id: document.selected_food.sensor}, null );
 				}
 				document.selected_food = null;
 			}
@@ -297,21 +298,31 @@
 				
 			}
 			
-			function changeType( elem, sensor ) {
+			function changeType( elem, sensor, info_page ) {
 				var val = $( elem ).val();
 				var name_val = elem.options[elem.selectedIndex].text;
-				$( elem ).parent().fadeOut( function() {
-					var spot_id = $(this).parent().attr('id');
-					// Remove item
-					$(this).remove();
+				var mapping = ['1sp1', '1sp2', '2sp1', '2sp2'];
+				
+				if( !info_page ) {
+					$( elem ).parent().fadeOut( function() {
+						var spot_id = $(this).parent().attr('id');
+						// Remove item
+						$(this).remove();
 					
+						// Update item on server
+						$.post( 'api/update_item.php', { id: sensor, item: val, name: name_val }, function(data) {
+							document.food_data[ sensor ] = data;
+							addItem( spot_id, data );
+							}, 'json');
+						});
+				} else {
 					// Update item on server
 					$.post( 'api/update_item.php', { id: sensor, item: val, name: name_val }, function(data) {
+						$('#info_back').trigger('click');
 						document.food_data[ sensor ] = data;
-						addItem( spot_id, data );
+						addItem( mapping[sensor], data );
 					}, 'json');
-
-				});
+				}
 			}
 			
 			function friendDetails( friend_id ) {
@@ -462,7 +473,7 @@
 			<div id='details'>
 				<div class="toolbar">
 					<h1>Food Item</h1>
-					<a href="#" class="back">Back</a>
+					<a href="#" id='info_back' class="back">Back</a>
 				</div>
 				<div class='s-scrollwrapper'>
 					<div>
@@ -484,8 +495,32 @@
 							</div>
 						</div>
 						<div style='padding:16px;'>
-							<a href='#' class='grayButton'>Change Type</a><br/>
-							<a href='#home' class='whiteButton' onclick='remove_from_fridge();'>Remove from Fridge</a>
+							<select class='grayButton' style='width:100%;height:48px;text-align:center;' onchange='changeType(this,document.selected_food.sensor,true);'>
+								<option value='unknown'>Change Type</option>
+								<optgroup label='Dairy'>
+									<option value='milk'>Milk</option>
+								</optgroup>
+								<optgroup label='Fruits'>
+									<option value='apple'>Apple</option>
+									<option value='orange'>Orange</option>
+								</optgroup>
+								<optgroup label='Meat'>
+									<option value='beef'>Beef</option>
+									<option value='spam'>Spam</option>
+								</optgroup>	
+								<optgroup label='Veggies'>
+									<option value='pepper'>Bell Pepper</option>
+								</optgroup>
+								<optgroup label='Misc'>
+									<option value='wine'>Wine</option>
+									<option value='beer'>beer</option>
+									<option value='bread'>Bread</option>
+									<option value='muffin'>Sweets</option>
+									<option value='pizza'>Pizza</option>
+								</optgroup>
+							</select>
+							<br/>
+							<a href='#home' class='whiteButton' animation='slideright' onclick='remove_from_fridge();'>Remove from Fridge</a>
 						</div>	
 					</div>
 				</div>

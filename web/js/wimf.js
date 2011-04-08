@@ -28,7 +28,7 @@ function addItem( spot, data ) {
 					"</a>";
 	} else {
 		food_item = "<div class='food food-details' style='display:none;background:url(\"img/unknown-white.png\");'>" +
-						"<select class='unknown' onchange='changeType(this," + data.sensor + ");'>" +
+						"<select class='unknown' onchange='changeType(this," + data.sensor + ",false);'>" +
 							"<option value='unknown'>Unknown</option>" +
 							"<optgroup label='Dairy'>" +
 								"<option value='milk'>Milk</option>" +
@@ -42,7 +42,7 @@ function addItem( spot, data ) {
 								"<option value='spam'>Spam</option>" +
 							"</optgroup>" +							
 							"<optgroup label='Veggies'>" +
-								"<option value='pepper'>Pepper</option>" +
+								"<option value='pepper'>Bell Pepper</option>" +
 							"</optgroup>" +
 							"<optgroup label='Misc'>" +
 								"<option value='wine'>Wine</option>" +
