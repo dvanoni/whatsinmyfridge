@@ -61,7 +61,7 @@
 					$('div#search_results').html(data);
 				});
 			}
-
+			
 			function set_search_params(elem, is_query) {
 				var url = ['recipe_search.php'];
 				if (is_query) {
@@ -110,7 +110,7 @@
 				    'bar_img/extensions@2x.png',
 				    'bar_img/iphone@2x.png',
 				    'bar_img/jqt@2x.png',
-				    'bar_img/video@2x.png'					
+				    'bar_img/video@2x.png'
 				],
 				useFastTouch: true
 			});
@@ -144,6 +144,26 @@
 				$( '#food-name' ).html( name );
 				$( '#food-weight' ).html( weight );
 				$( '#food-age' ).html( age );
+			}
+			
+			function searchFriends( elem ) {
+				var val = $(elem).val().toLowerCase();
+
+				if( val.length > 3 ) {
+					$('#friends > li').each( function() {
+						var foods = $(this).attr('food').split( ',' );
+						for( var i = 0; i < foods.length; i++ ) {
+							if( foods[i].toLowerCase().indexOf( val ) == -1 ) {
+								$(this).hide();
+							} else {
+								$(this).show();
+								break;
+							}
+						}
+					});
+				} else {
+					$('#friends > li').show();
+				}
 			}
 		</script>
 		<style type="text/css" media="screen">
@@ -185,6 +205,12 @@
 				height:64px;
 				width:64px;
 			}
+			
+			.caption {
+				font-size:12px;
+				color:#AAA;
+				font-weight:normal;
+			}
 		</style>
 	</head>
 	<body>
@@ -202,12 +228,12 @@
 				</li> 
 				<li> 
 					<a href="#fridge-connect" mask="bar_img/animation.png" mask2x="bar_img/animation@2x.png"> 
-						<strong>Fridge Connect</strong> 
+						<strong>FridgeConnect</strong> 
 					</a> 
 				</li> 
 				<li> 
-					<a href="#deals" mask="bar_img/ajax.png" mask2x="bar_img/ajax@2x.png"> 
-						<strong>Coupons/Deals</strong> 
+					<a href="#plan" mask="img/tabs/party.png" mask2x="bar_img/ajax@2x.png"> 
+						<strong>Plan</strong>
 					</a> 
 				</li> 
 			</ul></div> 
@@ -222,7 +248,7 @@
 					<div>
 						<div style='padding:32px;background-color:#CCC;border-bottom:2px solid #333;border-top:2px solid #333;'>
 							<table width='100%;'>
-								<tr><td style='text-align:center;'>
+								<tr><td>
 									<img src='img/food/apple.png'>
 								</td><td style='color:#333;'>
 									<div id='food-name' style='color:#1087be;margin-bottom:4px;font-weight:bold;'>Apple ( Fuji )</div>
@@ -252,52 +278,157 @@
 							<li class="forward"><a href="#my_ingredients">Use My Ingredients</a></li>
 							<li class="forward"><a href="#recipe_search">Generic Search</a></li>
 						</ul>
+						<ul class="edit rounded">
+							TODO: php to query backend and then put in a loop to create checkboxes
+							<li>
+								<input type="checkbox" name="name1" value="onions" title="onions" />
+							</li>
+							<li>
+								<input type="checkbox" name="name2" value="garlic" title="garlic" />
+							</li>
+						</ul>
+						<a href="recipe_results.php?name1=1" onclick='createUrl(this)'  class="whiteButton">Find Recipes!</a>
+					</div>
+				</div>
+			</div>
+			
+			<div id='connect-details'>
+				<div class="toolbar">
+					<h1>Fridge Buddy</h1>
+					<a href="#" class="back">Back</a>
+				</div>
+				<div class='s-scrollwrapper'>
+					<div>
+						<div class='info' style='padding:16px;border-bottom:2px solid #333;'>
+							<div style='float:left;'>
+								<img src='img/friend.png'>
+							</div>
+							<div style='float:left; margin-left:16px;margin-top:16px;'>
+								<div id='food-name' style='font-size:20px;margin-bottom:4px;font-weight:bold;'>Andrew Huynh</div>
+							</div>
+							<div style='clear:both;line-height:0;'></div>
+						</div>
+						<div>
+							<h2>Let's Get Cookin'</h2>
+						</div>
+						<ul class="plastic">
+							<li class="arrow">
+								<a href="#connect-details">
+									<table>
+										<tr><td>
+											<img src='img/friend.png'>
+										</td><td style='padding-left:16px;'>
+											<div>Some recipe</div>
+											<div class='caption'>Cheese, crackers</div>
+										</td></tr>
+									</table>
+								</a>
+							</li>
+							<li class="arrow">
+								<a href="#connect-details">
+									<table>
+										<tr><td>
+											<img src='img/friend.png'>
+										</td><td style='padding-left:16px;'>
+											<div>Some recipe</div>
+											<div class='caption'>Cheese, crackers</div>
+										</td></tr>
+									</table>
+								</a>
+							</li>
+							<li class="arrow">
+								<a href="#connect-details">
+									<table>
+										<tr><td>
+											<img src='img/friend.png'>
+										</td><td style='padding-left:16px;'>
+											<div>Some recipe</div>
+											<div class='caption'>Cheese, crackers</div>
+										</td></tr>
+									</table>
+								</a>
+							</li>
+							<li class="arrow">
+								<a href="#connect-details">
+									<table>
+										<tr><td>
+											<img src='img/friend.png'>
+										</td><td style='padding-left:16px;'>
+											<div>Some recipe</div>
+											<div class='caption'>Cheese, crackers</div>
+										</td></tr>
+									</table>
+								</a>
+							</li>
+						</ul>
 					</div>
 				</div>
 			</div>
 			<div id='fridge-connect'>
 				<div class="toolbar">
-					<h1>Fridge Connect</h1>
+					<h1>FridgeConnect</h1>
 				</div>
-				<ul class="plastic">
-					<li class="arrow">
-						<a href="#">
-							<table>
-								<tr><td>
-									<img src='img/friend.png'>
-								</td><td style='padding-left:16px;'>
-									Andrew's Fridge
-								</td></tr>
-							</table>
-						</a>
-					</li>
-					<li class="arrow">
-						<a href="#">
-							<table>
-								<tr><td>
-									<img src='img/friend.png'>
-								</td><td style='padding-left:16px;'>
-									Lynn's Fridge
-								</td></tr>
-							</table>
-						</a>
-					</li>
-					<li class="arrow">
-						<a href="#">
-							<table>
-								<tr><td>
-									<img src='img/friend.png'>
-								</td><td style='padding-left:16px;'>
-									Leilani's Fridge
-								</td></tr>
-							</table>
-						</a>
-					</li>
-				</ul>
+				<div style='padding:8px;background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#CCC), color-stop(0.6, #CCC), to(#AAA));'>
+					<ul style='margin:0;'>
+						<li><input type='text' onkeyup='searchFriends(this);' placeholder='Search for missing ingredients!'></li>
+					</ul>
+				</div>
+				<div class='s-scrollwrapper'>
+					<div>
+						<ul id='friends' class="plastic">
+							<li class="arrow" food='onions,apple'>
+								<a href="#connect-details">
+									<table>
+										<tr><td>
+											<img src='img/friend.png'>
+										</td><td style='padding-left:16px;'>
+											<div>Huynoni's Fridge</div>
+											<div class='caption'>Needs to lay off the wine</div>
+										</td></tr>
+									</table>
+								</a>
+							</li>
+							<li class="arrow" food='onions,apple,chicken'>
+								<a href="#connect-details">
+									<table>
+										<tr><td>
+											<img src='img/friend.png'>
+										</td><td style='padding-left:16px;'>
+											<div>Lynn's Fridge</div>
+											<div class='caption'>Needs more attention</div>
+										</td></tr>
+									</table>
+								</a>
+							</li>
+							<li class="arrow" food='onions,apple,orange'>
+								<a href="#connect-details">
+									<table>
+										<tr><td>
+											<img src='img/friend.png'>
+										</td><td style='padding-left:16px;'>
+											<div>Leilani's Fridge</div>
+											<div class='caption'>Party?</div>
+										</td></tr>
+									</table>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
 			</div>
-			<div id='deals'>
+			<div id='plan'>
 				<div class="toolbar">
-					<h1>Coupons/Deals</h1>
+					<h1>Plan A Party</h1>
+				</div>
+				<div class='s-scrollwrapper'>
+					<div>
+						<div style='text-align:center;margin-top:32px;'>
+							<div><img src='img/party_cat.png'></div>
+							<div>
+								<h1 style='font-size:36px;'>Shake to party</h1>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div id="recipe_search">
