@@ -16,6 +16,7 @@
     // make an associative array of people we know, indexed by phone number
     $people = array(
         "+17608894854"=>"David",
+		"+18186441679"=>"Andrew",
     );
          
     // iterate over all our friends
@@ -26,7 +27,7 @@
             "POST", array(
             "To" => $number,
             "From" => "+14155992671",
-            "Body" => "Hey $name, Monkey Party at 6PM. Bring Bananas!"
+            "Body" => "Hey $name, Let's Party!"
         ));
         if($response->IsError)
             echo "Error: {$response->ErrorMessage}";
