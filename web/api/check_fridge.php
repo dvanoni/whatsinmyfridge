@@ -35,7 +35,14 @@
 			$age = floor( $age ) . ' days old';
 		}
 		
-		$item['weight'] = floor( log( $item['value'] ) );
+		$val = $item['value'];
+		if( $val == 0 ) {
+			$weight = 0;
+		} else {
+			$weight = floor( log( $val ) );
+		}
+		
+		$item['weight'] = $weight;
 		$item['age'] = $age;
 		array_push( $items, $item );
 	}
