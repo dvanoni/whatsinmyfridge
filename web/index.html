@@ -144,14 +144,17 @@
 						var change = Math.abs(x1-x2+y1-y2+z1-z2);
 
 						if (change > sensitivity) {
-							alert( $('.current').attr('id') );
+							if( $('.current').attr('id') === 'plan' ) {
+								// PARTY!!
+								alert( "PARTY!!!!" );
+							}
 						}
 
 						// Update new position
 						x2 = x1;
 						y2 = y1;
 						z2 = z1;
-					}, 300);
+					}, 200 );
 				}
 								
 			});
