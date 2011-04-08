@@ -1,13 +1,51 @@
-<?php
+<?php	
+	$HOST = 'mysql.dvanoni.com';
+	$USER = 'whatsinmyfridge';
+	$PASS = 'coolfront';
+
+	// Connecting, selecting database
+	$link = mysql_connect( $HOST, $USER, $PASS ) or die('Could not connect: ' . mysql_error());
+
+	mysql_select_db('whatsinmyfridge') or die('Could not select database');
+
+	// Performing SQL query
+	$query = 'SELECT * FROM items';
+	$result = mysql_query($query) or die('Query failed: ' . mysql_error());
+
+	// Printing results in HTML
 	$items = array();
-	$item = array( 'sensor' => 0, 'unknown' => false, 'name' => 'Apple', 'weight' => 100.2, 'icon' => 'apple', 'age' => '5 days old' );
-	array_push( $items, $item );
-	$item = array( 'sensor' => 1, 'unknown' => false, 'name' => 'Pepper', 'weight' => 19800.2, 'icon' => 'pepper', 'age' => '5 days old'  );
-	array_push( $items, $item );
-	$item = array( 'sensor' => 2, 'unknown' => false, 'name' => 'Muffin', 'weight' => 109870.2, 'icon' => 'muffin', 'age' => '5 days old'  );
-	array_push( $items, $item );
-	$item = array( 'sensor' => 3, 'unknown' => true, 'name' => 'Apple', 'weight' => 10870.2, 'icon' => 'apple', 'age' => '5 days old'  );
-	array_push( $items, $item );
+	while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
+		$item = $line;
 		
+		if( is_null( $line['name'] ) || strlen( $line['name'] ) == 0 ) {
+			$item['unknown'] = true;
+		} else {
+			$item['unknown'] = false;
+		}
+		
+		// Figure out age
+		$age = ( time() - strtotime( $item['last_update'] ) ) / ( 60 * 60 * 24 );
+		if( $age < 1 ) {
+			$age = $age * 24;
+			if( $age < 1 ) {
+				$age = floor( $age * 60 ) . ' minutes old';
+			} else { 
+				$age = floor( $age ) . ' hours old';
+			}
+		} else {
+			$age = floor( $age ) . ' days old';
+		}
+		
+		$item['weight'] = floor( log( $item['current_value'] ) );
+		$item['age'] = $age;
+		array_push( $items, $item );
+	}
+
+	// Free resultset
+	mysql_free_result($result);
+
+	// Closing connection
+	mysql_close($link);	
+	
 	echo json_encode( $items );
 ?>

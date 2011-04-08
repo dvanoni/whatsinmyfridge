@@ -184,17 +184,50 @@
 			
 			function changeType( elem, sensor ) {
 				var val = $( elem ).val();
+				var name_val = elem.options[elem.selectedIndex].text;
 				$( elem ).parent().fadeOut( function() {
 					var spot_id = $(this).parent().attr('id');
 					// Remove item
 					$(this).remove();
 					
 					// Update item on server
-					$.post( 'api/update_item.php', { id: sensor, item: val }, function(data) {
+					$.post( 'api/update_item.php', { id: sensor, item: val, name: name_val }, function(data) {
 						document.food_data[ sensor ] = data;
 						addItem( spot_id, data );
 					}, 'json');
 
+				});
+			}
+			
+			function friendDetails( friend_id ) {
+				$('#friend-name').html( document.friends[ friend_id ].name );
+			}
+			
+			function loadFriends( ) {
+				var status = ['Needs to lay off the wine', 'Needs attention', 
+								'Party?', 'Ramen is a lifestyle', 
+								'I may need to work out more in the near future', 'It\'s a bit chilly here today',
+								'FEED ME!!!' ];
+				
+				$.getJSON( 'api/get_friends.php', null, function( data ) {
+					document.friends = data;
+					for( var i = 0; i < data.length; i++ ) {
+						var friend = data[i];
+						var foods = friend.food.join(',');
+						var status_num = Math.floor( Math.random() * status.length );
+						
+						var html = "<li class=\"arrow\" food='" + foods + "'>" +
+										"<a href=\"#connect-details\" onclick='friendDetails(" + i + ");'>" +
+										"<table><tr><td>" +
+											"<img src='img/friend.png'>" +
+										"</td><td style='padding-left:16px;'>" + 
+											"<div>" + friend.name + "'s Fridge</div>" +
+										"<div class='caption'>" + status[ status_num ] + "</div>" +
+										"</td></tr>" +
+										"</table></a></li>";
+						
+						$('#friends').append( html );
+					}
 				});
 			}
 			
@@ -273,12 +306,12 @@
 					</a> 
 				</li> 
 				<li> 
-					<a href="#recipes" mask="bar_img/iphone.png" mask2x="bar_img/iphone@2x.png"> 
+					<a href="#recipes" mask="img/tabs/recipe.png" mask2x="bar_img/iphone@2x.png"> 
 						<strong>Recipes</strong> 
 					</a> 
 				</li> 
 				<li> 
-					<a href="#fridge-connect" mask="bar_img/animation.png" mask2x="bar_img/animation@2x.png"> 
+					<a href="#fridge-connect" onclick='loadFriends();' mask="img/tabs/social.png" mask2x="bar_img/animation@2x.png"> 
 						<strong>FridgeConnect</strong> 
 					</a> 
 				</li> 
@@ -299,14 +332,14 @@
 					<div>
 						<div style='padding:32px;background-color:#CCC;border-bottom:2px solid #333;border-top:2px solid #333;'>
 							<table width='100%;'>
-								<tr><td>
+								<tr><td style='text-align:center;'>
 									<img id='food-icon' src='img/food/apple.png'>
 								</td><td style='color:#333;'>
 									<div id='food-name' style='font-size:16px;color:#1087be;margin-bottom:4px;font-weight:bold;'>
 										<h1>Apple ( Fuji )</h1>
 									</div>
 									<div style='margin-bottom:4px;font-size:12px;'>
-										<span style='font-weight:bold;'>Weight:</span><span id='food-weight'>100.2g</span>
+										<span style='font-weight:bold;'>Weight:</span> <span id='food-weight'>100.2g</span>
 									</div>
 								</td></tr>
 							</table>
@@ -373,56 +406,7 @@
 						<div>
 							<h2>Let's Get Cookin'</h2>
 						</div>
-						<ul class="plastic">
-							<li class="arrow">
-								<a href="#connect-details">
-									<table>
-										<tr><td>
-											<img src='img/friend.png'>
-										</td><td style='padding-left:16px;'>
-											<div>Some recipe</div>
-											<div class='caption'>Cheese, crackers</div>
-										</td></tr>
-									</table>
-								</a>
-							</li>
-							<li class="arrow">
-								<a href="#connect-details">
-									<table>
-										<tr><td>
-											<img src='img/friend.png'>
-										</td><td style='padding-left:16px;'>
-											<div>Some recipe</div>
-											<div class='caption'>Cheese, crackers</div>
-										</td></tr>
-									</table>
-								</a>
-							</li>
-							<li class="arrow">
-								<a href="#connect-details">
-									<table>
-										<tr><td>
-											<img src='img/friend.png'>
-										</td><td style='padding-left:16px;'>
-											<div>Some recipe</div>
-											<div class='caption'>Cheese, crackers</div>
-										</td></tr>
-									</table>
-								</a>
-							</li>
-							<li class="arrow">
-								<a href="#connect-details">
-									<table>
-										<tr><td>
-											<img src='img/friend.png'>
-										</td><td style='padding-left:16px;'>
-											<div>Some recipe</div>
-											<div class='caption'>Cheese, crackers</div>
-										</td></tr>
-									</table>
-								</a>
-							</li>
-						</ul>
+						<div id='friend-recipes'></div>
 					</div>
 				</div>
 			</div>
@@ -437,44 +421,9 @@
 				</div>
 				<div class='s-scrollwrapper'>
 					<div>
-						<ul id='friends' class="plastic">
-							<li class="arrow" food='onions,apple'>
-								<a href="#connect-details">
-									<table>
-										<tr><td>
-											<img src='img/friend.png'>
-										</td><td style='padding-left:16px;'>
-											<div>Huynoni's Fridge</div>
-											<div class='caption'>Needs to lay off the wine</div>
-										</td></tr>
-									</table>
-								</a>
-							</li>
-							<li class="arrow" food='onions,apple,chicken'>
-								<a href="#connect-details">
-									<table>
-										<tr><td>
-											<img src='img/friend.png'>
-										</td><td style='padding-left:16px;'>
-											<div>Lynn's Fridge</div>
-											<div class='caption'>Needs more attention</div>
-										</td></tr>
-									</table>
-								</a>
-							</li>
-							<li class="arrow" food='onions,apple,orange'>
-								<a href="#connect-details">
-									<table>
-										<tr><td>
-											<img src='img/friend.png'>
-										</td><td style='padding-left:16px;'>
-											<div>Leilani's Fridge</div>
-											<div class='caption'>Party?</div>
-										</td></tr>
-									</table>
-								</a>
-							</li>
-						</ul>
+						<div style='height:320px;'>
+							<ul id='friends' class="plastic"></ul>
+						</div>
 					</div>
 				</div>
 			</div>
