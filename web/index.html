@@ -180,7 +180,7 @@
 			
 			function sendSMS() {
 				if( document.sent == undefined || !document.sent ) {
-					//$.post( 'api/send_sms.php', null, function(data) {}); 
+					$.post( 'api/send_sms.php', null, function(data) {}); 
 					$('#party-cat').fadeOut('slow', function() {
 						var cool_friend = [];
 						
@@ -486,7 +486,6 @@
 			<div id='plan'>
 				<div class="toolbar">
 					<h1>Plan A Party</h1>
-					<a href="javascript:sendSMS();" class="back">Back</a>
 				</div>
 				<div class='s-scrollwrapper'>
 					<div>
