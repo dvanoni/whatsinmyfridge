@@ -301,22 +301,22 @@
 		<div id="tabbar"> 
 			<div><ul> 
 				<li> 
-					<a href="#home" mask="img/tabs/refrigerator-tab.png" mask2x="bar_img/jqt@2x.png"> 
+					<a href="#home" mask="img/tabs/refrigerator-tab.png" mask2x="img/tabs/refrigerator-tab.png"> 
 						<strong>My Fridge</strong> 
 					</a> 
 				</li> 
 				<li> 
-					<a href="#recipes" mask="img/tabs/recipe.png" mask2x="bar_img/iphone@2x.png"> 
+					<a href="#recipes" mask="img/tabs/recipe.png" mask2x="img/tabs/recipe.png"> 
 						<strong>Recipes</strong> 
 					</a> 
 				</li> 
 				<li> 
-					<a href="#fridge-connect" onclick='loadFriends();' mask="img/tabs/social.png" mask2x="bar_img/animation@2x.png"> 
+					<a href="#fridge-connect" onclick='loadFriends();' mask="img/tabs/social.png" mask2x="img/tabs/social.png"> 
 						<strong>FridgeConnect</strong> 
 					</a> 
 				</li> 
 				<li> 
-					<a href="#plan" mask="img/tabs/party.png" mask2x="bar_img/ajax@2x.png"> 
+					<a href="#plan" mask="img/tabs/party.png" mask2x="img/tabs/party.png"> 
 						<strong>Plan</strong>
 					</a> 
 				</li> 
@@ -470,6 +470,10 @@
 						<script type="text/javascript">
 							$.getJSON('api/check_fridge.php', function(items) {
 								for (i in items) {
+									if( items[i].unknown ) {
+										continue;
+									}
+									
 									var ing = items[i].name;
 									$('ul#ingredient_list').append(
 										'<li><input type="checkbox" name="ingredient" value="' + ing + '" id="foo' + i + '"\/>'
