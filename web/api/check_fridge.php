@@ -35,7 +35,7 @@
 			$age = floor( $age ) . ' days old';
 		}
 		
-		$val = $item['value'];
+		$val = $item['val'];
 		if( $val == 0 ) {
 			$weight = 0;
 		} else {
