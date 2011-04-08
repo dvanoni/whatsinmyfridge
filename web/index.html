@@ -63,6 +63,28 @@
 				});
 			}
 
+			function set_search_params(elem, is_query) {
+				var url = ['recipe_search.php'];
+				if (is_query) {
+					url.push('?query=');
+					url.push(encodeURIComponent($('input#query').val()));
+				} else {
+					//url.push($(elem).attr('href'));
+					url.push('?ingredients=');
+					var ingredients = [];
+					// TODO: more specific check in case there are more checkboxes elsewhere
+					$("input:checked").each(function() {
+						ingredients.push(encodeURIComponent(this.value));
+						this.checked = false;
+					});
+					ingredients = ingredients.join(',');
+					
+					url.push(ingredients);
+				}
+
+				$(elem).attr('href', url.join(''));
+			}
+
 			var jQT = new $.jQTouch({
 				icon: 'jqtouch.png',
 				addGlossToIcon: false,
@@ -309,7 +331,7 @@
 							<li class="arrow">
 							<a href="#my_ingredients">
 								<table>
-									<tr><td>
+									<tr style="height:64px;"><td>
 										<img height="64px" src='img/genius.png'/>
 									</td><td style='padding-left:16px;'>	
 										Use My Ingredients
@@ -480,7 +502,7 @@
 					<div>			
 						<div style='padding:8px;background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#CCC), color-stop(0.6, #CCC), to(#AAA));'>
 							<ul style='margin:0;'>
-								<li><input type="text" id="query" placeHolder="Browse for recipes" onkeyup="searchRecipes(this)"></li>
+								<li><input type="text" id="query" placeHolder="Browse by ingredient or recipe name" onkeyup="searchRecipes(this)"></li>
 							</ul>
 						</div>
 						<div id="search_results" style="height:1500px;"></div>
@@ -497,16 +519,16 @@
 						<ul id="ingredient_list" class="rounded">
 						</ul>
 						<script type="text/javascript">
-							$.getJSON('dummy_database.php', function(ingredients) {
-								for (i in ingredients) {
-									var ing = ingredients[i];
+							$.getJSON('api/check_fridge.php', function(items) {
+								for (i in items) {
+									var ing = items[i].name;
 									$('ul#ingredient_list').append(
 										'<li><input type="checkbox" name="ingredient" value="' + ing + '" id="foo' + i + '"\/>'
 										+ '<label class="checkbox_label" for="foo' + i + '">' + ing + '<\/label><\/li>');
 								}
 							});
 						</script>
-						<a style="margin:0 10px;color:rgba(0,0,0,.9)" onclick="set_search_params(this, false)" href="recipe_search.php" class="whiteButton">Find Recipes!</a>
+						<a style="margin:0 10px;color:rgba(0,0,0,.9)" href="recipe_search.php" onclick="set_search_params(this, false)" class="whiteButton">Find Recipes!</a>
 					</div>
 				</div>
 			</div>
