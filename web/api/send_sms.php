@@ -15,10 +15,6 @@
  
     // make an associative array of people we know, indexed by phone number
     $people = array(
-        "+17608894854"=>"David",
-		"+18186441679"=>"Andrew",
-		"+14083939442"=>"Lynnbacca",
-		"+14153209094"=>"Lei"
     );
          
     // iterate over all our friends
